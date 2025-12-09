@@ -27,7 +27,7 @@ Feature: Register a vehicle
         And a vehicle
         And I have registered this vehicle into my fleet
         When I try to register this vehicle into my fleet
-        Then I should be informed this this vehicle has already been registered into my fleet
+        Then I should be informed this vehicle has already been registered into my fleet
 
     Scenario: Same vehicle can belong to more than one fleet
         Given my fleet
@@ -142,3 +142,30 @@ Please wrap the part 1 into a complete application. We want:
 - Quality of the code.
 - Please be careful to not over engineer your solution!
 - Usage of good practices and modern programming language features.
+
+### Implementation notes
+
+- Quality tools (suggested):
+    - PHPStan pour l'analyse statique des types et détections précoces d'erreurs.
+    - PHP CS Fixer (ou PHP_CodeSniffer) pour un style de code cohérent et automatisable.
+    - Behat pour les tests BDD (déjà inclus).
+- CI/CD (exemple GitHub Actions):
+    - Jobs: `install` (composer install), `lint` (CS fixer dry-run), `static-analysis` (PHPStan), `tests` (Behat mémoire), `tests-sql`...
+    - Artifacts/Reports: publier les rapports de lint/analysis, et la sortie des scénarios.
+    - Gates: merge uniquement si `lint`, `static-analysis` et `tests` passent.
+
+### CLI example
+- A simple CLI based on Symfony Console is provided in `bin/console`.
+- Database schema is provided in `sql/schema.sql`.
+
+Run examples:
+
+```shell
+php bin/console app:fleet:create user-123
+
+php bin/console app:fleet:register-vehicle user-123 ABC-123
+
+php bin/console app:fleet:localize-vehicle user-123 ABC-123 48.8566 2.3522 35
+```
+
+BDD: les scénarios Behat utilisent désormais uniquement PostgreSQL (pas de repository mémoire). Le `FeatureContext` crée la connexion via `DB_*`, applique automatiquement `sql/schema.sql`, puis nettoie les tables entre scénarios. Assurez‑vous que l'extension `pdo_pgsql` est installée et qu'une base PostgreSQL est accessible avec les variables d'environnement ci‑dessus.
