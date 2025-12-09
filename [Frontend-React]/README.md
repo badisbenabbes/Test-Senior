@@ -54,3 +54,24 @@ Add an edit mode
 - Types
 - Responsive
 - Tests
+
+---
+
+### Implementation notes
+
+How to run locally:
+1. Install dependencies
+   ```sh
+   npm install
+   ```
+2. Start dev server
+   ```sh
+   npm run dev
+   ```
+   Then open the printed local URL (usually http://localhost:5173).
+
+
+Notes:
+- Styles are simple CSS (`src/styles.css`) to match the mock and ensure responsiveness.
+- The UI resets selection and applied "duplicates" upon any new search to follow the requirement that actions are only front-end and reset on search change.
+- I haven't managed the Github API rate limit
