@@ -1,0 +1,29 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__.'/../vendor/autoload.php';
+
+use Symfony\Component\Console\Application;
+use App\Infra\Symfony\Console\Command\CreateFleetCommand;
+use App\Infra\Symfony\Console\Command\RegisterVehicleCommand;
+use App\Infra\Symfony\Console\Command\LocalizeVehicleCommand;
+use App\Infra\Db\PdoFactory;
+use App\Infra\Repository\FleetRepository;
+use App\App\Handler\RegisterVehicleHandler;
+
+if (!is_dir(dirname(__DIR__).'/vendor')) {
+    throw new LogicException('Dependencies are missing. Try running "composer install".');
+}
+
+$pdoFactory = new PdoFactory();
+$pdo = $pdoFactory->get();
+
+$application = new Application();
+$fleetRepository = new FleetRepository($pdo);
+$registerVehicleHandler = new RegisterVehicleHandler($fleetRepository);
+
+$application->addCommand(new CreateFleetCommand($pdoFactory));
+$application->addCommand(new RegisterVehicleCommand($registerVehicleHandler));
+$application->addCommand(new LocalizeVehicleCommand($pdoFactory));
+
+$application->run();

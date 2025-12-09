@@ -2,10 +2,15 @@
     "type": "project",
     "license": "proprietary",
     "require": {
-        "behat/behat": "*"
-    },
-    "require-dev": {
-    },
+        "behat/behat": "*",
+        "ext-pdo": "*",
+        "symfony/console": "^7.4"
+    }
+  ,
+  "require-dev": {
+    "roave/security-advisories": "dev-latest",
+    "phpunit/phpunit": "^11.0"
+  },
     "config": {
         "preferred-install": {
             "*": "dist"

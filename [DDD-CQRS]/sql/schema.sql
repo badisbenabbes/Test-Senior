@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS fleet (
+    id TEXT PRIMARY KEY
+);
+
+CREATE TABLE IF NOT EXISTS fleet_vehicle (
+    fleet_id TEXT NOT NULL REFERENCES fleet(id) ON DELETE CASCADE,
+    plate TEXT NOT NULL,
+    lat DOUBLE PRECISION NULL,
+    lng DOUBLE PRECISION NULL,
+    alt DOUBLE PRECISION NULL,
+    PRIMARY KEY (fleet_id, plate)
+);
